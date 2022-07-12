@@ -17,13 +17,18 @@ spec:
         - name: container-second
           image: ichih/second
           imagePullPolicy: Always
-          ports:
-            - containerPort: 6666
           env:
             - name: HOST
               value: service-first
             - name: PORT
               value: "6666"
+          volumeMounts:
+            - mountPath: /tmp
+              name: data
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: my-pvc
 ---
 #apiVersion: v1
 #kind: Service

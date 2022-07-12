@@ -7,6 +7,6 @@ docker_delete:
 docker_build: docker_delete
 	cd .. ; docker build -t second -f second/Dockerfile .
 
-docker_push:
+docker_push: docker_build
 	docker tag second ichih/second
 	docker push ichih/second

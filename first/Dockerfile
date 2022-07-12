@@ -10,8 +10,10 @@ RUN go mod download
 
 RUN GOARCH=arm64 GOOS=linux CGO_ENABLED=0 go build -o first practice_k8s/first
 
-FROM scratch
+FROM alpine
 COPY --from=builder /app/first /
+
+RUN apk add --no-cache bash
 
 EXPOSE 6666
 

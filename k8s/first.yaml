@@ -12,6 +12,10 @@ spec:
       labels:
         app: first
     spec:
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: my-pvc
       terminationGracePeriodSeconds: 30
       containers:
         - name: container-first
@@ -19,6 +23,10 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 6666
+          volumeMounts:
+            - mountPath: /tmp
+              name: data
+
 ---
 apiVersion: v1
 kind: Service
