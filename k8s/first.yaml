@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deploy-first
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: first
+  template:
+    metadata:
+      labels:
+        app: first
+    spec:
+      terminationGracePeriodSeconds: 30
+      containers:
+        - name: container-first
+          image: ichih/first
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 6666
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-first
+spec:
+  type: ClusterIP
+  selector:
+    app: first
+  ports:
+    - port: 6666 # service listen port
+      targetPort: 6666 # target listen port
+#apiVersion: v1
+#kind: Service
+#metadata:
+#  name: service-mock-gateway
+#spec:
+#  type: ClusterIP
+#  selector:
+#    app: mock-gateway
+#  ports:
+#    - port: 3333
+#      targetPort: 3333
+---
+#apiVersion: networking.k8s.io/v1
+#kind: Ingress
+#metadata:
+#  name: ingress-cashier-v2-api
+#  annotations:
+#    kubernetes.io/ingress.class: alb
+#    alb.ingress.kubernetes.io/scheme: internet-facing
+#    alb.ingress.kubernetes.io/group.name: cashier
+#    alb.ingress.kubernetes.io/group.order: "31"
+#spec:
+#  rules:
+#    - host: "api.xjun.tw"
+#      http:
+#        paths:
+#          - pathType: Prefix
+#            path: /
+#            backend:
+#              service:
+#                name: service-cashier-v2-api
+#                port:
+#                  number: 80
